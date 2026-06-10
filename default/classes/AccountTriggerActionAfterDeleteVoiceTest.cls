@@ -1,7 +1,5 @@
 /**
  * @description Test for AccountTriggerActionAfterDeleteVoice Apex Class
- * @author Charlie Faber
- * @date 2022-11-06
  */
 @IsTest
 public with sharing class AccountTriggerActionAfterDeleteVoiceTest {

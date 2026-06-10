@@ -1,7 +1,5 @@
 /**
  * @description Test for ContactTriggerActionHotProspectPaidMedia Apex class
- * @author Charlie Faber
- * @date 2023-10-30
  */
 @IsTest
 public with sharing class ContactTriggerActionHotProspectPaidTest {
