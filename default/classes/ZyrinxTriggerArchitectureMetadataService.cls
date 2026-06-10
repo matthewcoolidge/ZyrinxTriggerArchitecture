@@ -1,17 +1,17 @@
-public without sharing class TKWWTriggerArchitectureMetadataService {
+public without sharing class ZyrinxTriggerArchitectureMetadataService {
 
     @TestVisible
     public static List<Trigger_Action__mdt> actions = new List<Trigger_Action__mdt>();
 
     @TestVisible
-    public static Map<String, Trigger_Settings_TKWWTA__mdt> mapTriggerSettings;
+    public static Map<String, Trigger_Settings_Zyrinx__mdt> mapTriggerSettings;
 
     @TestVisible
     public static List<Trigger_Action__mdt> getTriggerActions(){
 
         if(actions!=null && actions.size() > 0){
             // You can override the Trigger_Action__mdt(s) stored in the database by passing Trigger_Action__mdt instance(s)
-            // to the TKWWTriggerArchitectureMetadataService.actions before the Trigger executes
+            // to the ZyrinxTriggerArchitectureMetadataService.actions before the Trigger executes
            return actions;
         }
         else{
@@ -50,7 +50,7 @@ public without sharing class TKWWTriggerArchitectureMetadataService {
     public static Integer getSynchronousRecordLimit(){
         
         if(mapTriggerSettings == null){
-            mapTriggerSettings = Trigger_Settings_TKWWTA__mdt.getAll();
+            mapTriggerSettings = Trigger_Settings_Zyrinx__mdt.getAll();
         }
         
         return (mapTriggerSettings.size() == 0 || 

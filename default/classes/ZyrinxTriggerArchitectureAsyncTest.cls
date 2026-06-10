@@ -1,17 +1,17 @@
 @isTest
-public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTriggerArchitecture.asyncProcessing implements TKWWTriggerArchitecture.executeMethod, TKWWTriggerArchitecture.triggerCache {
+public without sharing class ZyrinxTriggerArchitectureAsyncTest extends ZyrinxTriggerArchitecture.asyncProcessing implements ZyrinxTriggerArchitecture.executeMethod, ZyrinxTriggerArchitecture.triggerCache {
 
     public static List<String> output = new List<String>();
 
     public static void init(String action){
 
-        System.debug('TKWWTriggerArchitectureAsyncTest.init - ' + action);
-        output.add('TKWWTriggerArchitectureAsyncTest.init - ' + action);
+        System.debug('ZyrinxTriggerArchitectureAsyncTest.init - ' + action);
+        output.add('ZyrinxTriggerArchitectureAsyncTest.init - ' + action);
     }
 
-    public void execute(List <sObject> records, Map <id, sObject> oldMap, TKWWTriggerArchitecture.triggerParameters tp)
+    public void execute(List <sObject> records, Map <id, sObject> oldMap, ZyrinxTriggerArchitecture.triggerParameters tp)
     {
-        System.debug('TKWWTriggerArchitectureAsyncTest.execute');
+        System.debug('ZyrinxTriggerArchitectureAsyncTest.execute');
 
         Integer count = records.size();
 
@@ -32,15 +32,15 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
                     Messaging.SingleEmailMessage newEmail = new Messaging.SingleEmailMessage();
                     newEmail.setTargetObjectId(user1);
                     newEmail.setSaveAsActivity(false);
-                    newEmail.setSubject('TKWWTriggerArchitectureAsyncTest.execute');
-                    newEmail.setHtmlBody('TKWWTriggerArchitectureAsyncTest.execute');
+                    newEmail.setSubject('ZyrinxTriggerArchitectureAsyncTest.execute');
+                    newEmail.setHtmlBody('ZyrinxTriggerArchitectureAsyncTest.execute');
                     mailObject(newEmail); 
 
                     Messaging.SingleEmailMessage newEmail2 = new Messaging.SingleEmailMessage();
                     newEmail2.setTargetObjectId(user1);
                     newEmail2.setSaveAsActivity(false);
-                    newEmail2.setSubject('TKWWTriggerArchitectureAsyncTest.execute2');
-                    newEmail2.setHtmlBody('TKWWTriggerArchitectureAsyncTest.execute2');
+                    newEmail2.setSubject('ZyrinxTriggerArchitectureAsyncTest.execute2');
+                    newEmail2.setHtmlBody('ZyrinxTriggerArchitectureAsyncTest.execute2');
                     mailObjects(new List<Messaging.SingleEmailMessage>{newEmail2}); 
                 }
             }
@@ -85,29 +85,29 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
     private static testmethod void testGetTriggerActions(){
 
-        List<Trigger_Action__mdt> triggerActions = TKWWTriggerArchitectureMetadataService.getTriggerActions();
+        List<Trigger_Action__mdt> triggerActions = ZyrinxTriggerArchitectureMetadataService.getTriggerActions();
         System.assertNotEquals(null, triggerActions);
     }
 
     private static testmethod void testGetSynchronousRecordLimit(){
 
-        TKWWTriggerArchitectureMetadataService.mapTriggerSettings = new Map<String, Trigger_Settings_TKWWTA__mdt>();
-        Integer lim = TKWWTriggerArchitectureMetadataService.getSynchronousRecordLimit();
+        ZyrinxTriggerArchitectureMetadataService.mapTriggerSettings = new Map<String, Trigger_Settings_Zyrinx__mdt>();
+        Integer lim = ZyrinxTriggerArchitectureMetadataService.getSynchronousRecordLimit();
         Assert.areEqual(1, lim);
 
-        Trigger_Settings_TKWWTA__mdt defaultSettings = new Trigger_Settings_TKWWTA__mdt();
+        Trigger_Settings_Zyrinx__mdt defaultSettings = new Trigger_Settings_Zyrinx__mdt();
         defaultSettings.MasterLabel = 'Default';
-        TKWWTriggerArchitectureMetadataService.mapTriggerSettings = new Map<String, Trigger_Settings_TKWWTA__mdt>{'Foo'=>defaultSettings};
-        lim = TKWWTriggerArchitectureMetadataService.getSynchronousRecordLimit();
+        ZyrinxTriggerArchitectureMetadataService.mapTriggerSettings = new Map<String, Trigger_Settings_Zyrinx__mdt>{'Foo'=>defaultSettings};
+        lim = ZyrinxTriggerArchitectureMetadataService.getSynchronousRecordLimit();
         Assert.areEqual(1, lim);
 
-        TKWWTriggerArchitectureMetadataService.mapTriggerSettings = new Map<String, Trigger_Settings_TKWWTA__mdt>{'Default'=>defaultSettings};
-        lim = TKWWTriggerArchitectureMetadataService.getSynchronousRecordLimit();
+        ZyrinxTriggerArchitectureMetadataService.mapTriggerSettings = new Map<String, Trigger_Settings_Zyrinx__mdt>{'Default'=>defaultSettings};
+        lim = ZyrinxTriggerArchitectureMetadataService.getSynchronousRecordLimit();
         Assert.areEqual(1, lim);
 
         defaultSettings.SynchronousRecordLimit__c = 99;
-        TKWWTriggerArchitectureMetadataService.mapTriggerSettings = new Map<String, Trigger_Settings_TKWWTA__mdt>{'Default'=>defaultSettings};
-        lim = TKWWTriggerArchitectureMetadataService.getSynchronousRecordLimit();
+        ZyrinxTriggerArchitectureMetadataService.mapTriggerSettings = new Map<String, Trigger_Settings_Zyrinx__mdt>{'Default'=>defaultSettings};
+        lim = ZyrinxTriggerArchitectureMetadataService.getSynchronousRecordLimit();
         Assert.areEqual(99, lim);
     }
 
@@ -115,21 +115,21 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
         // This test should revert to Synchronous DML, assuming SYNCRONOUS_RECORD_LIMIT is 1
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
-        TKWWTriggerArchitectureSetting__c tes = new TKWWTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
+        ZyrinxTriggerArchitectureSetting__c tes = new ZyrinxTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
         insert tes;
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureAsyncTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
         tam.BlockRecursion__c = true;
         tam.AfterInsert__c = true;
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureAsyncTest';
         
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         List<Account> accounts = new List<Account>();
 
@@ -148,7 +148,7 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
         insert accounts;
         Test.stopTest();
 
-        Assert.areEqual(false, TKWWTriggerArchitecture.allowAsynchronousProcessing);
+        Assert.areEqual(false, ZyrinxTriggerArchitecture.allowAsynchronousProcessing);
 
         List<Contact> newContacts = [SELECT Id, LastName FROM Contact WHERE LastName LIKE 'AsyncTestINSERT%'];
         Assert.areEqual(1, newContacts.size());
@@ -159,19 +159,19 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
     private static testmethod void testBulkInsertArchitectureTestAsync(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureAsyncTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
         tam.Order__c = 1;
         tam.BlockRecursion__c = true;
         tam.AfterInsert__c = true;
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureAsyncTest';
 
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         List<Account> accounts = new List<Account>();
 
@@ -185,7 +185,7 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
             accounts.add(a);
         }
 
-        TKWWTriggerArchitectureSetting__c tes = new TKWWTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
+        ZyrinxTriggerArchitectureSetting__c tes = new ZyrinxTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
         insert tes;
 
         // We are inserting mixed DML (Contacts and Opportunities) for every Account
@@ -193,7 +193,7 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
         insert accounts;
         Test.stopTest();
 
-        Assert.areEqual(true, TKWWTriggerArchitecture.allowAsynchronousProcessing);
+        Assert.areEqual(true, ZyrinxTriggerArchitecture.allowAsynchronousProcessing);
         List<Contact> newContacts = [SELECT Id, LastName FROM Contact WHERE LastName LIKE 'AsyncTestINSERT%'];
         Assert.areEqual(5, newContacts.size());
 
@@ -205,21 +205,21 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
         // This test should revert to Synchronous DML, assuming SYNCRONOUS_RECORD_LIMIT is 1
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureAsyncTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
         tam.Order__c = 1;
         tam.BlockRecursion__c = true;
         tam.AfterUpdate__c = true;
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureAsyncTest';
 
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
-        TKWWTriggerArchitectureSetting__c tes = new TKWWTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=true, Expanded_Debugging__c = false);
+        ZyrinxTriggerArchitectureSetting__c tes = new ZyrinxTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=true, Expanded_Debugging__c = false);
         insert tes;
 
         List<Account> setupData = new List<Account>();
@@ -245,7 +245,7 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
         delete tes;
 
-        tes = new TKWWTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
+        tes = new ZyrinxTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
         insert tes;
 
         for (Integer x = 0; x<1; x++){
@@ -257,7 +257,7 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
         update setupData;
         Test.stopTest();
 
-        Assert.areEqual(false, TKWWTriggerArchitecture.allowAsynchronousProcessing);
+        Assert.areEqual(false, ZyrinxTriggerArchitecture.allowAsynchronousProcessing);
         List<Contact> cont = new List<Contact>([SELECT id, lastname from contact]);
         system.debug('cont' + cont);
         List<Contact> updatedContacts = [SELECT Id, LastName FROM Contact WHERE LastName LIKE 'UPDATED%'];
@@ -266,21 +266,21 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
     private static testmethod void testBulkUpdateArchitectureTestAsync(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureAsyncTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
         tam.Order__c = 1;
         tam.BlockRecursion__c = true;
         tam.AfterUpdate__c = true;
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureAsyncTest';
 
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
         
-        TKWWTriggerArchitectureSetting__c tes = new TKWWTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=true, Expanded_Debugging__c = false);
+        ZyrinxTriggerArchitectureSetting__c tes = new ZyrinxTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=true, Expanded_Debugging__c = false);
         insert tes;
 
         List<Account> setupData = new List<Account>();
@@ -306,7 +306,7 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
         delete tes;
 
-        tes = new TKWWTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
+        tes = new ZyrinxTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
         insert tes;
 
         for (Integer x = 0; x<5; x++){
@@ -318,7 +318,7 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
         update setupData;
         Test.stopTest();
 
-        Assert.areEqual(true, TKWWTriggerArchitecture.allowAsynchronousProcessing);
+        Assert.areEqual(true, ZyrinxTriggerArchitecture.allowAsynchronousProcessing);
 
         List<Contact> updatedContacts = [SELECT Id, LastName FROM Contact WHERE LastName LIKE 'UPDATED%'];
         Assert.areEqual(5, updatedContacts.size());
@@ -328,21 +328,21 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
         // This test should revert to Synchronous DML, assuming SYNCRONOUS_RECORD_LIMIT is 1
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureAsyncTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
         tam.Order__c = 1;
         tam.BlockRecursion__c = true;
         tam.AfterDelete__c = true;
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureAsyncTest';
 
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
-        TKWWTriggerArchitectureSetting__c tes = new TKWWTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=true, Expanded_Debugging__c = false);
+        ZyrinxTriggerArchitectureSetting__c tes = new ZyrinxTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=true, Expanded_Debugging__c = false);
         insert tes;
 
         List<Account> setupData = new List<Account>();
@@ -381,7 +381,7 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
         delete tes;
 
-        tes = new TKWWTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
+        tes = new ZyrinxTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
         insert tes;
 
         // We want to affect the Contact for each Account deleted, syncronously
@@ -390,7 +390,7 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
         delete setupData;
         Test.stopTest();
 
-        Assert.areEqual(false, TKWWTriggerArchitecture.allowAsynchronousProcessing);
+        Assert.areEqual(false, ZyrinxTriggerArchitecture.allowAsynchronousProcessing);
 
         List<Contact> deletedContacts = [SELECT Id, LastName FROM Contact WHERE LastName LIKE 'TestContact%'];
         Assert.areEqual(0, deletedContacts.size());
@@ -400,21 +400,21 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
         // This test should revert to Synchronous DML, assuming SYNCRONOUS_RECORD_LIMIT is 1
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureAsyncTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
         tam.Order__c = 1;
         tam.BlockRecursion__c = true;
         tam.AfterDelete__c = true;
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureAsyncTest';
 
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
-        TKWWTriggerArchitectureSetting__c tes = new TKWWTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=true, Expanded_Debugging__c = false);
+        ZyrinxTriggerArchitectureSetting__c tes = new ZyrinxTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=true, Expanded_Debugging__c = false);
         insert tes;
 
         List<Account> setupData = new List<Account>();
@@ -452,7 +452,7 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
         delete tes;
 
-        tes = new TKWWTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
+        tes = new ZyrinxTriggerArchitectureSetting__c(SetupOwnerid=UserInfo.getUserId(), Block_Triggers__c=false, Expanded_Debugging__c = true);
         insert tes;
 
         // We want to affect the Contact for each Account deleted, asyncronously
@@ -461,7 +461,7 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
         delete setupData;
         Test.stopTest();
 
-        Assert.areEqual(true, TKWWTriggerArchitecture.allowAsynchronousProcessing);
+        Assert.areEqual(true, ZyrinxTriggerArchitecture.allowAsynchronousProcessing);
 
         List<Contact> deletedContacts = [SELECT Id, LastName FROM Contact WHERE LastName LIKE 'TestContact%'];
         Assert.areEqual(0, deletedContacts.size());
@@ -469,19 +469,19 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
 
     private static testmethod void testEmailArchitectureTestAsync(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureAsyncTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
         tam.Order__c = 1;
         tam.BlockRecursion__c = true;
         tam.AfterInsert__c = true;
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureAsyncTest';
 
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         List<Account> accounts = new List<Account>();
 
@@ -500,9 +500,9 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
         insert accounts;
         Test.stopTest();
         
-        List<TKWW_Exception__c> ex = [SELECT Type__c, Message__c, Line_Number__c, Stack_Trace__c FROM TKWW_Exception__c];
-        for(TKWW_Exception__c e : ex){
-            System.debug('TKWW_Exception__c: ' + e.Type__c + ' ' + e.Line_Number__c + ' ' + e.Message__c + ' ' + e.Stack_Trace__c);
+        List<Zyrinx_Exception__c> ex = [SELECT Type__c, Message__c, Line_Number__c, Stack_Trace__c FROM Zyrinx_Exception__c];
+        for(Zyrinx_Exception__c e : ex){
+            System.debug('Zyrinx_Exception__c: ' + e.Type__c + ' ' + e.Line_Number__c + ' ' + e.Message__c + ' ' + e.Stack_Trace__c);
         }
 
         // This hack covers dev orgs without ability to send emails
@@ -510,31 +510,31 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
         // with email enabled, an email invocation limit is incremented so we
         // test that first
         Boolean emailEnabled = true;
-        List<TKWW_Exception__c> postSendExceptions = [SELECT Id,Message__c from TKWW_Exception__c];
-        for(TKWW_Exception__c e : postSendExceptions){
+        List<Zyrinx_Exception__c> postSendExceptions = [SELECT Id,Message__c from Zyrinx_Exception__c];
+        for(Zyrinx_Exception__c e : postSendExceptions){
             if(e.Message__c.contains('Single email is not enabled')){
                 emailEnabled = false;
                 break;
             }
         }
-        Assert.areEqual(true, (TKWWTriggerArchitecture.emailInvocations == 1 || emailEnabled == false));
+        Assert.areEqual(true, (ZyrinxTriggerArchitecture.emailInvocations == 1 || emailEnabled == false));
     }
 
     private static testmethod void testEmailArchitectureTestAsyncBulk(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureAsyncTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
         tam.Order__c = 1;
         tam.BlockRecursion__c = true;
         tam.AfterInsert__c = true;
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureAsyncTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureAsyncTest';
 
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         List<Account> accounts = new List<Account>();
 
@@ -553,9 +553,9 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
         insert accounts;
         Test.stopTest();
         
-        List<TKWW_Exception__c> ex = [SELECT Type__c, Message__c, Line_Number__c, Stack_Trace__c FROM TKWW_Exception__c];
-        for(TKWW_Exception__c e : ex){
-            System.debug('TKWW_Exception__c: ' + e.Type__c + ' ' + e.Line_Number__c + ' ' + e.Message__c + ' ' + e.Stack_Trace__c);
+        List<Zyrinx_Exception__c> ex = [SELECT Type__c, Message__c, Line_Number__c, Stack_Trace__c FROM Zyrinx_Exception__c];
+        for(Zyrinx_Exception__c e : ex){
+            System.debug('Zyrinx_Exception__c: ' + e.Type__c + ' ' + e.Line_Number__c + ' ' + e.Message__c + ' ' + e.Stack_Trace__c);
         }
 
         // This hack covers dev orgs without ability to send emails
@@ -563,13 +563,13 @@ public without sharing class TKWWTriggerArchitectureAsyncTest extends TKWWTrigge
         // with email enabled, an email invocation limit is incremented so we
         // test that first
         Boolean emailEnabled = true;
-        List<TKWW_Exception__c> postSendExceptions = [SELECT Id,Message__c from TKWW_Exception__c];
-        for(TKWW_Exception__c e : postSendExceptions){
+        List<Zyrinx_Exception__c> postSendExceptions = [SELECT Id,Message__c from Zyrinx_Exception__c];
+        for(Zyrinx_Exception__c e : postSendExceptions){
             if(e.Message__c.contains('Single email is not enabled')){
                 emailEnabled = false;
                 break;
             }
         }
-        Assert.areEqual(true, (TKWWTriggerArchitecture.emailInvocations == 1 || emailEnabled == false));
+        Assert.areEqual(true, (ZyrinxTriggerArchitecture.emailInvocations == 1 || emailEnabled == false));
     }
 }

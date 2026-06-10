@@ -1,4 +1,4 @@
-global without sharing class TKWWTriggerArchitecture {
+global without sharing class ZyrinxTriggerArchitecture {
 
     ////////////////////////////////////////////
     // Use this in Test Classes to determine if Email Sends have occured in Async post-
@@ -20,21 +20,21 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////////
     // The maximum allowed raw (unfiltered by RecordType and/or Recursion blocking) 
     // number of records for which we will force Synchronous post-processingn DML.
-    // This defaults to 1 and is set via the Default instance of Trigger_Settings_TKWWTA__mdt
+    // This defaults to 1 and is set via the Default instance of Trigger_Settings_Zyrinx__mdt
     ////////////////////////////////////////////
     private static final Integer SYNCRONOUS_RECORD_LIMIT;
 
     ////////////////////////////////////////////
     // Exception if needed
     ////////////////////////////////////////////
-    public virtual class TKWWTriggerArchitectureException extends Exception{}
+    public virtual class ZyrinxTriggerArchitectureException extends Exception{}
 
     ////////////////////////////////////////////
     // Interface to be implemented by target Classes
     ////////////////////////////////////////////
     global interface executeMethod
     {
-        void execute(List <sObject> records, Map <id, sObject> oldMap, TKWWTriggerArchitecture.triggerParameters tp);
+        void execute(List <sObject> records, Map <id, sObject> oldMap, ZyrinxTriggerArchitecture.triggerParameters tp);
     }
 
     ////////////////////////////////////////////
@@ -90,10 +90,10 @@ global without sharing class TKWWTriggerArchitecture {
         }
 
         ////////////////////////////////////////
-        // Method called by the TKWWTA platform after .execute on any executeMethod implementer
+        // Method called by the Zyrinx platform after .execute on any executeMethod implementer
         // which also extends asyncProcessing
         ////////////////////////////////////////
-        global virtual void postExecute(TKWWTriggerArchitecture.triggerParameters tp, Boolean debugMode){
+        global virtual void postExecute(ZyrinxTriggerArchitecture.triggerParameters tp, Boolean debugMode){
 
             Boolean debug = debugMode;
             String executeClassName = String.valueOf(this).split(':')[0];
@@ -102,7 +102,7 @@ global without sharing class TKWWTriggerArchitecture {
             Boolean atLimit = getQueueableJobs >= getLimitQueueableJobs;
             System.debug(executeClassName + '.postExecute, ' + getQueueableJobs + '/' + getLimitQueueableJobs + ' jobs' + ((atLimit) ? ' AT LIMIT' : ''));
 
-            List<TKWW_Exception__c> exceptionList = new List<TKWW_Exception__c>();
+            List<Zyrinx_Exception__c> exceptionList = new List<Zyrinx_Exception__c>();
 
             if(debug){
                 System.debug('insertObjects: ' + insertObjectsList.size());
@@ -127,7 +127,7 @@ global without sharing class TKWWTriggerArchitecture {
                 // If Queueable Limit is available and Asynch is not blocked (because of an implied UI operation),
                 // enqueue this job. Otherwise, execute the DML synchronously
                 ////////////////////////////////////////
-                if(!atLimit && TKWWTriggerArchitecture.allowAsynchronousProcessing){
+                if(!atLimit && ZyrinxTriggerArchitecture.allowAsynchronousProcessing){
                     System.enqueueJob(new AsyncProcessorInsert(insertObjectsList, executeClassName));
                 }
                 else{
@@ -162,7 +162,7 @@ global without sharing class TKWWTriggerArchitecture {
                 // If Queueable Limit is available and Asynch is not blocked (because of an implied UI operation),
                 // enqueue this job. Otherwise, execute the DML synchronously
                 ////////////////////////////////////////
-                if(!atLimit && TKWWTriggerArchitecture.allowAsynchronousProcessing){
+                if(!atLimit && ZyrinxTriggerArchitecture.allowAsynchronousProcessing){
                     System.enqueueJob(new AsyncProcessorUpdate(dedupeResult, executeClassName));
                 }
                 else{
@@ -197,7 +197,7 @@ global without sharing class TKWWTriggerArchitecture {
                 // If Queueable Limit is available and Asynch is not blocked (because of an implied UI operation),
                 // enqueue this job. Otherwise, execute the DML synchronously
                 ////////////////////////////////////////
-                if(!atLimit && TKWWTriggerArchitecture.allowAsynchronousProcessing){
+                if(!atLimit && ZyrinxTriggerArchitecture.allowAsynchronousProcessing){
                     System.enqueueJob(new AsyncProcessorDelete(dedupeResult, executeClassName));
                 }
                 else{
@@ -221,9 +221,9 @@ global without sharing class TKWWTriggerArchitecture {
                 else{
                     List<Messaging.SendEmailResult> saveResultList = Messaging.sendEmail(mailObjectsList, false);
                     if(Test.isRunningTest()){
-                        TKWWTriggerArchitecture.emailInvocations += Limits.getEmailInvocations();
+                        ZyrinxTriggerArchitecture.emailInvocations += Limits.getEmailInvocations();
                     }
-                    List<TKWW_Exception__c> sendExceptions = ExceptionUtility.consumeException(saveResultList, executeClassName + '.postExecute AT LIMIT in ' + executeClassName);
+                    List<Zyrinx_Exception__c> sendExceptions = ExceptionUtility.consumeException(saveResultList, executeClassName + '.postExecute AT LIMIT in ' + executeClassName);
                     exceptionList.addAll(sendExceptions);
                 } 
             }
@@ -242,7 +242,7 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////
     global class AsyncProcessorInsert implements Queueable{
 
-        List<TKWW_Exception__c> exceptionList = new List<TKWW_Exception__c>();
+        List<Zyrinx_Exception__c> exceptionList = new List<Zyrinx_Exception__c>();
 
         String caller = 'AsyncProcessorInsert';
         List<SObject> records;
@@ -274,7 +274,7 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////
     global class AsyncProcessorUpdate implements Queueable{
 
-        List<TKWW_Exception__c> exceptionList = new List<TKWW_Exception__c>();
+        List<Zyrinx_Exception__c> exceptionList = new List<Zyrinx_Exception__c>();
 
         String caller = 'AsyncProcessorUpdate';
         List<SObject> records;
@@ -306,7 +306,7 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////
     global class AsyncProcessorDelete implements Queueable{
 
-        List<TKWW_Exception__c> exceptionList = new List<TKWW_Exception__c>();
+        List<Zyrinx_Exception__c> exceptionList = new List<Zyrinx_Exception__c>();
 
         String caller = 'AsyncProcessorDelete';
         List<SObject> records;
@@ -338,27 +338,27 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////
     public class AsyncProcessorMail implements Queueable, Database.AllowsCallouts{
 
-        List<TKWW_Exception__c> exceptionList = new List<TKWW_Exception__c>();
+        List<Zyrinx_Exception__c> exceptionList = new List<Zyrinx_Exception__c>();
 
         String caller = 'AsyncProcessorMail';
 
         ////////////////////////////////////////////
         // Messaging.SingleEmailMessage is NOT serializable, so we can only pass them to 
-        // execute via a wrapper class (EmailUtility.TKWWEmailWrapper). We then rebuild the 
+        // execute via a wrapper class (EmailUtility.ZyrinxEmailWrapper). We then rebuild the 
         // actual Messaging.SingleEmailMessages in execute before sending
         ////////////////////////////////////////////
-        List<EmailUtility.TKWWEmailWrapper> records = new List<EmailUtility.TKWWEmailWrapper>();
+        List<EmailUtility.ZyrinxEmailWrapper> records = new List<EmailUtility.ZyrinxEmailWrapper>();
 
         public AsyncProcessorMail(List<Messaging.SingleEmailMessage> recs){
             for(Messaging.SingleEmailMessage message: recs){
-                records.add(new EmailUtility.TKWWEmailWrapper(message));
+                records.add(new EmailUtility.ZyrinxEmailWrapper(message));
             }
         }
 
         public AsyncProcessorMail(List<Messaging.SingleEmailMessage> recs, String call){
             caller = call;
             for(Messaging.SingleEmailMessage message: recs){
-                records.add(new EmailUtility.TKWWEmailWrapper(message));
+                records.add(new EmailUtility.ZyrinxEmailWrapper(message));
             }
         }
 
@@ -368,20 +368,20 @@ global without sharing class TKWWTriggerArchitecture {
 
             ////////////////////////////////////////////
             // Messaging.SingleEmailMessage is NOT serializable, so we can only pass them to 
-            // execute via a wrapper class (EmailUtility.TKWWEmailWrapper). We then rebuild the 
+            // execute via a wrapper class (EmailUtility.ZyrinxEmailWrapper). We then rebuild the 
             // actual Messaging.SingleEmailMessages here before sending
             ////////////////////////////////////////////
             List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
-            for(EmailUtility.TKWWEmailWrapper wrapper : records){
+            for(EmailUtility.ZyrinxEmailWrapper wrapper : records){
                 messages.add(wrapper.generateSingleEmailMessage());
             }
             List<Messaging.SendEmailResult> saveResultList = Messaging.sendEmail(messages, false);
 
             if(Test.isRunningTest()){
-                TKWWTriggerArchitecture.emailInvocations += Limits.getEmailInvocations();
+                ZyrinxTriggerArchitecture.emailInvocations += Limits.getEmailInvocations();
             }
 
-            List<TKWW_Exception__c> sendExceptions = ExceptionUtility.consumeException(saveResultList,'AsyncProcessorMail in ' + caller);
+            List<Zyrinx_Exception__c> sendExceptions = ExceptionUtility.consumeException(saveResultList,'AsyncProcessorMail in ' + caller);
             exceptionList.addAll(sendExceptions);
 
             if(exceptionList.size()>0){
@@ -400,7 +400,7 @@ global without sharing class TKWWTriggerArchitecture {
     // Recursion check is now per-record; these are the records processed so far
     private static Map<String, Set<Id>> recordsAlreadyProcessed = new Map<String, Set<Id>>();
 
-    // Use TKWWTriggerArchitectureSetting__c to set Expanded_Debugging__c to true for debug mode
+    // Use ZyrinxTriggerArchitectureSetting__c to set Expanded_Debugging__c to true for debug mode
     private static Boolean debug = false;
 
     ////////////////////////////////////////////
@@ -408,16 +408,16 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////////
     static{
 
-        // Use expanded Debugging in TKWWTriggerArchitectureSetting__c for ... Debugging!
-        if(TKWWTriggerArchitectureSetting__c.getInstance(Userinfo.getUserId()).Expanded_Debugging__c){
+        // Use expanded Debugging in ZyrinxTriggerArchitectureSetting__c for ... Debugging!
+        if(ZyrinxTriggerArchitectureSetting__c.getInstance(Userinfo.getUserId()).Expanded_Debugging__c){
             debug = true;
         }
 
-        // Gets the triggerActionMap, either from CMDT or from overrides sent to the TKWWTriggerArchitectureMetadataService via tests
+        // Gets the triggerActionMap, either from CMDT or from overrides sent to the ZyrinxTriggerArchitectureMetadataService via tests
         getTriggerActionData();
 
         // Get the maximum number of records (default: 1) which will force Synchronous DML in post processing
-        SYNCRONOUS_RECORD_LIMIT  = TKWWTriggerArchitectureMetadataService.getSynchronousRecordLimit();
+        SYNCRONOUS_RECORD_LIMIT  = ZyrinxTriggerArchitectureMetadataService.getSynchronousRecordLimit();
     }
 
     ////////////////////////////////////////////
@@ -425,11 +425,11 @@ global without sharing class TKWWTriggerArchitecture {
      ////////////////////////////////////////////
     global static void executeAllMethods(){
 
-        System.debug('TKWWTriggerArchitectureSetting__c.getInstance(Userinfo.getUserId()).Block_Triggers__c: ' + TKWWTriggerArchitectureSetting__c.getInstance(Userinfo.getUserId()).Block_Triggers__c);
+        System.debug('ZyrinxTriggerArchitectureSetting__c.getInstance(Userinfo.getUserId()).Block_Triggers__c: ' + ZyrinxTriggerArchitectureSetting__c.getInstance(Userinfo.getUserId()).Block_Triggers__c);
         // mcoolidge 2020-08-12 SFDEV-1094
         // If this User has Triggers blocked, do not execute.
-        if(TKWWTriggerArchitectureSetting__c.getInstance(Userinfo.getUserId()).Block_Triggers__c){
-            if (debug) System.debug('TKWWTriggerArchitecture.executeAllMethods - blocking ctor for: ' + Userinfo.getUserName());
+        if(ZyrinxTriggerArchitectureSetting__c.getInstance(Userinfo.getUserId()).Block_Triggers__c){
+            if (debug) System.debug('ZyrinxTriggerArchitecture.executeAllMethods - blocking ctor for: ' + Userinfo.getUserName());
             return;
         }
 
@@ -457,16 +457,16 @@ global without sharing class TKWWTriggerArchitecture {
             }
         }
 
-        if (debug) System.debug('TKWWTriggerArchitecture.executeAllMethods');
-        if (debug) System.debug('TKWWTriggerArchitecture.executeAllMethods.tp.defaultName: ' + tp.defaultName);
-        if (debug) System.debug('TKWWTriggerArchitecture.executeAllMethods.triggerActionMap: ' + triggerActionMap);
-        if (debug) System.debug('TKWWTriggerArchitecture.allowAsynchronousProcessing: ' + allowAsynchronousProcessing);
+        if (debug) System.debug('ZyrinxTriggerArchitecture.executeAllMethods');
+        if (debug) System.debug('ZyrinxTriggerArchitecture.executeAllMethods.tp.defaultName: ' + tp.defaultName);
+        if (debug) System.debug('ZyrinxTriggerArchitecture.executeAllMethods.triggerActionMap: ' + triggerActionMap);
+        if (debug) System.debug('ZyrinxTriggerArchitecture.allowAsynchronousProcessing: ' + allowAsynchronousProcessing);
 
         if(triggerActionMap.containsKey(tp.defaultName.toLowerCase())){ // this will look like "accountafterinsert", for example
 
             // list of TriggerActions for this context, ex. "accountafterinsert"
             List <Trigger_Action__mdt> actionData = triggerActionMap.get(tp.defaultName.toLowerCase()); 
-            if (debug) System.debug('TKWWTriggerArchitecture.executeAllMethods.actionData: ' + actionData);
+            if (debug) System.debug('ZyrinxTriggerArchitecture.executeAllMethods.actionData: ' + actionData);
 
             // sorting variables
             List<double> sortList = new List<Double>();
@@ -497,8 +497,8 @@ global without sharing class TKWWTriggerArchitecture {
             }
             //make sure we have a list sorted by the order of execution 
             sortList.Sort();
-            if (debug) System.debug('TKWWTriggerArchitecture.executeAllMethods.sortList: ' + sortList);
-            if (debug) System.debug('TKWWTriggerArchitecture.executeAllMethods.executeMap: ' + executeMap);
+            if (debug) System.debug('ZyrinxTriggerArchitecture.executeAllMethods.sortList: ' + sortList);
+            if (debug) System.debug('ZyrinxTriggerArchitecture.executeAllMethods.executeMap: ' + executeMap);
 
             // List of Cache classes that have been instantiated for the current context. This allows Trigger Actions
             // to have different Bulk Before/After classes in the same context if desired.
@@ -506,7 +506,7 @@ global without sharing class TKWWTriggerArchitecture {
 
             // Get available RecordType Developer Names for this SObject type, for filtering
             Map<String,Id> recordTypesForObject = getRecordTypeDevNamesForType(tp.triggerObject);
-            if (debug) System.debug('TKWWTriggerArchitecture.executeAllMethods.recordTypesForObject: ' + recordTypesForObject);
+            if (debug) System.debug('ZyrinxTriggerArchitecture.executeAllMethods.recordTypesForObject: ' + recordTypesForObject);
 
             // cache of new/old records by RecordType
             Map<String, List<SObject>> filteredRecordsCache = new Map<String, List<SObject>>();
@@ -515,7 +515,7 @@ global without sharing class TKWWTriggerArchitecture {
             for(double r : sortList){   
 
                 Trigger_Action__mdt thisTriggerAction = executeMap.get(r);
-                if (debug) System.debug('TKWWTriggerArchitecture.executeAllMethods.thisTriggerAction: ' + thisTriggerAction);
+                if (debug) System.debug('ZyrinxTriggerArchitecture.executeAllMethods.thisTriggerAction: ' + thisTriggerAction);
 
                 // make sure each Trigger Action, cmdt is Active or Test Active, depending on context
                 if((Test.isRunningTest() == false && thisTriggerAction.isActive__c == true)
@@ -526,12 +526,12 @@ global without sharing class TKWWTriggerArchitecture {
                 
                         // if this Trigger Action contains a Bulk Before or Bulk After, instantiate the appropriate one
                         // NOTE that:
-                        //  1) Bulk Before and Bulk After classes MUST implement TKWWTriggerArchitecture.triggerCache
+                        //  1) Bulk Before and Bulk After classes MUST implement ZyrinxTriggerArchitecture.triggerCache
                         //  2) Bulk Before and Bulk After classes MUST only do work inside their init method
                         // The end result is that each Bulk class only gets instantiated once per action, before the  
                         // first Trigger Action which references it. This resets per slice, as caches will need to be
                         // refreshed for each slice of records
-                        if(thisTriggerAction.Bulk_Before__c != null && TKWWTriggerArchitecture.isContextBefore(tp)==true){
+                        if(thisTriggerAction.Bulk_Before__c != null && ZyrinxTriggerArchitecture.isContextBefore(tp)==true){
 
                             // Refresh our relevant cache ONLY when:
                             //  1) the action changes (i.e., NULL to insert, insert to update) OR
@@ -544,7 +544,7 @@ global without sharing class TKWWTriggerArchitecture {
                                 cacheClassesInstantiated.add(thisTriggerAction.Bulk_Before__c);
                             }
                         }
-                        else if(thisTriggerAction.Bulk_After__c != null && TKWWTriggerArchitecture.isContextBefore(tp)==false){
+                        else if(thisTriggerAction.Bulk_After__c != null && ZyrinxTriggerArchitecture.isContextBefore(tp)==false){
 
                             // Refresh our relevant cache ONLY when:
                             //  1) the action changes (i.e., NULL to insert, insert to update) OR
@@ -628,7 +628,7 @@ global without sharing class TKWWTriggerArchitecture {
                     }
                     else{
                         // mcoolidge 2023-05-05 https://theknotww.atlassian.net/browse/QTC-5707
-                        System.debug('TKWWTriggerArchitecture.executeAllMethods.' + thisTriggerAction.Execute_Class__c + ' DISABLED FOR USER: ' + Userinfo.getName() + ' (' + UserInfo.getUserId() + ')');
+                        System.debug('ZyrinxTriggerArchitecture.executeAllMethods.' + thisTriggerAction.Execute_Class__c + ' DISABLED FOR USER: ' + Userinfo.getName() + ' (' + UserInfo.getUserId() + ')');
                     }
                 }
                 else{
@@ -657,8 +657,8 @@ global without sharing class TKWWTriggerArchitecture {
 
     private static void executeCode(string executeClassName, List <sObject> records, Map <id, sObject> oldMap, triggerParameters tp, boolean executeAll){
 
-        if (debug) System.debug('TKWWTriggerArchitecture.executeAllMethods.executeCode');
-        if (debug) System.debug('TKWWTriggerArchitecture.executeAllMethods.executeCode.executeClassName: ' + executeClassName); 
+        if (debug) System.debug('ZyrinxTriggerArchitecture.executeAllMethods.executeCode');
+        if (debug) System.debug('ZyrinxTriggerArchitecture.executeAllMethods.executeCode.executeClassName: ' + executeClassName); 
 
         // Active and Recursion blocked checks have already been made
         executeMethodWrapper(executeClassName, records, oldMap, tp);
@@ -667,27 +667,27 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////////
     // Internals to invoke execute methods in executeMethod-implementing classes
     ////////////////////////////////////////////
-    private static void executeMethodWrapper(string executeClassName, List <sObject> records, Map <id, sObject> oldMap, TKWWTriggerArchitecture.triggerParameters tp)
+    private static void executeMethodWrapper(string executeClassName, List <sObject> records, Map <id, sObject> oldMap, ZyrinxTriggerArchitecture.triggerParameters tp)
     {   
-        if (debug) System.debug('TKWWTriggerArchitecture.executeMethodWrapper');
+        if (debug) System.debug('ZyrinxTriggerArchitecture.executeMethodWrapper');
 
-        List<TKWW_Exception__c> exceptionList = new List<TKWW_Exception__c>();
+        List<Zyrinx_Exception__c> exceptionList = new List<Zyrinx_Exception__c>();
 
         Type t;
-        TKWWTriggerArchitecture.executeMethod em;
+        ZyrinxTriggerArchitecture.executeMethod em;
 
         // Make sure the supplied executeClassName exists and can be instantiated
         try{
             t = Type.forName(executeClassName);
-            em =  (TKWWTriggerArchitecture.executeMethod) t.newInstance();
+            em =  (ZyrinxTriggerArchitecture.executeMethod) t.newInstance();
         }
         catch (Exception tex){
             if(Test.isRunningTest() || debug){
-                System.debug('TKWWTriggerArchitecture unable to instantiate: ' + executeClassName);
+                System.debug('ZyrinxTriggerArchitecture unable to instantiate: ' + executeClassName);
                 ExceptionUtility.printException(tex);
                 throw tex;
             }
-            ExceptionUtility.consumeException(tex, 'TKWWTriggerArchitecture unable to instantiate: ' + executeClassName, true);
+            ExceptionUtility.consumeException(tex, 'ZyrinxTriggerArchitecture unable to instantiate: ' + executeClassName, true);
         }
 
         // Make sure the supplied executeClassName can be executed. Unless they catch their own exceptions, runtime
@@ -699,30 +699,30 @@ global without sharing class TKWWTriggerArchitecture {
         }
         catch (Exception eex){
             if(Test.isRunningTest() || debug){
-                System.debug('TKWWTriggerArchitecture unable to execute: ' + executeClassName);
+                System.debug('ZyrinxTriggerArchitecture unable to execute: ' + executeClassName);
                 ExceptionUtility.printException(eex);
                 throw eex;
             }
-            ExceptionUtility.consumeException(eex, 'TKWWTriggerArchitecture unable to execute: ' + executeClassName, true);
+            ExceptionUtility.consumeException(eex, 'ZyrinxTriggerArchitecture unable to execute: ' + executeClassName, true);
         }
 
-        // If this implementor extends TKWWTriggerArchitecture.asyncProcessing, attempt to call its
+        // If this implementor extends ZyrinxTriggerArchitecture.asyncProcessing, attempt to call its
         // .postExecute method which will attempt DML operations for insert, update, delete, 
         // and also Messaging.sendEmail for any objects added to those collections by the implementor 
-        if(em instanceof TKWWTriggerArchitecture.asyncProcessing){
+        if(em instanceof ZyrinxTriggerArchitecture.asyncProcessing){
             try{
-                TKWWTriggerArchitecture.asyncProcessing ap = (TKWWTriggerArchitecture.asyncProcessing)em;
+                ZyrinxTriggerArchitecture.asyncProcessing ap = (ZyrinxTriggerArchitecture.asyncProcessing)em;
                 System.debug('executeMethodWrapper: ' + executeClassName + '.postExecute');
                 ap.postExecute(tp, debug);
                 System.debug('executeMethodWrapper: ' + executeClassName + '.postExecute complete');
             }
             catch(Exception aex){
                 if(Test.isRunningTest() || debug){
-                    System.debug('TKWWTriggerArchitecture unable to Async Post Process: ' + executeClassName);
+                    System.debug('ZyrinxTriggerArchitecture unable to Async Post Process: ' + executeClassName);
                     ExceptionUtility.printException(aex);
                     throw aex;
                 }
-                ExceptionUtility.consumeException(aex, 'TKWWTriggerArchitecture unable to Async Post Process: ' + executeClassName, true);
+                ExceptionUtility.consumeException(aex, 'ZyrinxTriggerArchitecture unable to Async Post Process: ' + executeClassName, true);
             }
         }
     }
@@ -732,17 +732,17 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////////
     private static void instantiateBulkClass(string bulkClassName, string action)
     {   
-        if (debug) System.debug('TKWWTriggerArchitecture.instantiateBulkClass');
+        if (debug) System.debug('ZyrinxTriggerArchitecture.instantiateBulkClass');
 
         Type t = Type.forName(bulkClassName);
-        TKWWTriggerArchitecture.triggerCache tb =  (TKWWTriggerArchitecture.triggerCache) t.newInstance();
+        ZyrinxTriggerArchitecture.triggerCache tb =  (ZyrinxTriggerArchitecture.triggerCache) t.newInstance();
         tb.init(action);
 
     }
 
     ////////////////////////////////////////////
     // Internals to build the map of trigger class/actions to lists to triggeraction CMDTs
-    // NOTE that you can, in a Test Class, set TKWWTriggerArchitectureMetadataService.actions directly
+    // NOTE that you can, in a Test Class, set ZyrinxTriggerArchitectureMetadataService.actions directly
     ////////////////////////////////////////////    
     private static void getTriggerActionData()
     {
@@ -753,7 +753,7 @@ global without sharing class TKWWTriggerArchitecture {
         
         triggerActionMap = new Map <string, List <Trigger_Action__mdt>>();
         
-        List<Trigger_Action__mdt> actions = TKWWTriggerArchitectureMetadataService.getTriggerActions();
+        List<Trigger_Action__mdt> actions = ZyrinxTriggerArchitectureMetadataService.getTriggerActions();
         for(Trigger_Action__mdt g : actions){
             getDefaultNameFromSetting(g);       
         }
@@ -766,9 +766,9 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////////    
 /*     private static boolean isActive (string action, string executeClassName){
 
-        if (debug) System.debug('TKWWTriggerArchitecture.isActive');   
-        if (debug) System.debug('TKWWTriggerArchitecture.isActive.action: ' + action);  
-        if (debug) System.debug('TKWWTriggerArchitecture.isActive.executeClassName: ' + executeClassName);  
+        if (debug) System.debug('ZyrinxTriggerArchitecture.isActive');   
+        if (debug) System.debug('ZyrinxTriggerArchitecture.isActive.action: ' + action);  
+        if (debug) System.debug('ZyrinxTriggerArchitecture.isActive.executeClassName: ' + executeClassName);  
 
         action = action.toLowerCase();
         getTriggerActionData();
@@ -776,7 +776,7 @@ global without sharing class TKWWTriggerArchitecture {
         if(triggerActionMap == null){
             return false;
         }
-        if (debug) System.debug('TKWWTriggerArchitecture.isActive.triggerActionMap: ' + triggerActionMap + ' (' + triggerActionMap.containsKey(action) + ')');
+        if (debug) System.debug('ZyrinxTriggerArchitecture.isActive.triggerActionMap: ' + triggerActionMap + ' (' + triggerActionMap.containsKey(action) + ')');
 
         if(Test.IsRunningTest() == false && triggerActionMap.containsKey(action)){
             for (Trigger_Action__mdt ta : triggerActionMap.get(action)){
@@ -801,9 +801,9 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////////   
 /*     private static boolean isRecursionBlocked (string action, string executeClassName){
 
-        if (debug) System.debug('TKWWTriggerArchitecture.isRecursionBlocked');   
-        if (debug) System.debug('TKWWTriggerArchitecture.isRecursionBlocked.action: ' + action);  
-        if (debug) System.debug('TKWWTriggerArchitecture.isRecursionBlocked.executeClassName: ' + executeClassName);  
+        if (debug) System.debug('ZyrinxTriggerArchitecture.isRecursionBlocked');   
+        if (debug) System.debug('ZyrinxTriggerArchitecture.isRecursionBlocked.action: ' + action);  
+        if (debug) System.debug('ZyrinxTriggerArchitecture.isRecursionBlocked.executeClassName: ' + executeClassName);  
         action = action.toLowerCase();
         getTriggerActionData();
         Boolean retval = false;
@@ -815,7 +815,7 @@ global without sharing class TKWWTriggerArchitecture {
         if(triggerActionMap.containsKey(action)){
             for (Trigger_Action__mdt ta : triggerActionMap.get(action)){
                 if(ta.Execute_Class__c == executeClassName){
-                    if (debug) System.debug('TKWWTriggerArchitecture.isRecursionBlocked.retval: ' + ta.BlockRecursion__c);
+                    if (debug) System.debug('ZyrinxTriggerArchitecture.isRecursionBlocked.retval: ' + ta.BlockRecursion__c);
                     return ta.BlockRecursion__c;
                 }
             }
@@ -845,8 +845,8 @@ global without sharing class TKWWTriggerArchitecture {
             }
         }
         catch(Exception ex){
-            if (debug) System.debug('TKWWTriggerArchitecture.getRecordTypeDevNamesForType.Exception: ' + ex.getMessage());
-            ExceptionUtility.consumeException(ex, 'TKWWTriggerArchitecture.getRecordTypeDevNamesForType.Exception: ' + ex.getMessage(), true);
+            if (debug) System.debug('ZyrinxTriggerArchitecture.getRecordTypeDevNamesForType.Exception: ' + ex.getMessage());
+            ExceptionUtility.consumeException(ex, 'ZyrinxTriggerArchitecture.getRecordTypeDevNamesForType.Exception: ' + ex.getMessage(), true);
         }
         return mapRecordTypes;
     }
@@ -855,7 +855,7 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////////      
     private static List<sObject> filterRecordsbyRecordTypes(String filterRecordTypes, Map<String,Id> mapRecordTypes, List<sObject> records) {
 
-        if (debug) System.debug('TKWWTriggerArchitecture.filterRecordsbyRecordTypes: ' + filterRecordTypes);
+        if (debug) System.debug('ZyrinxTriggerArchitecture.filterRecordsbyRecordTypes: ' + filterRecordTypes);
 
         try{
 
@@ -879,8 +879,8 @@ global without sharing class TKWWTriggerArchitecture {
 
         }
         catch(Exception ex){
-            if (debug) System.debug('TKWWTriggerArchitecture.filterRecordsbyRecordTypes.Exception: ' + ex.getMessage());
-            ExceptionUtility.consumeException(ex, 'TKWWTriggerArchitecture.filterRecordsbyRecordTypes.Exception: ' + ex.getMessage(), true);
+            if (debug) System.debug('ZyrinxTriggerArchitecture.filterRecordsbyRecordTypes.Exception: ' + ex.getMessage());
+            ExceptionUtility.consumeException(ex, 'ZyrinxTriggerArchitecture.filterRecordsbyRecordTypes.Exception: ' + ex.getMessage(), true);
             return records;
         }
     }
@@ -889,7 +889,7 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////////      
     private static List<sObject> filterRecordsbyAlreadyProcessed(TriggerParameters tp, Map<String,Set<Id>> recordsAlreadyProcessed, List<sObject> records) {
 
-        if (debug) System.debug('TKWWTriggerArchitecture.filterRecordsbyAlreadyProcessed');
+        if (debug) System.debug('ZyrinxTriggerArchitecture.filterRecordsbyAlreadyProcessed');
 
         try{
 
@@ -905,8 +905,8 @@ global without sharing class TKWWTriggerArchitecture {
 
         }
         catch(Exception ex){
-            if (debug) System.debug('TKWWTriggerArchitecture.filterRecordsbyAlreadyProcessed.Exception: ' + ex.getMessage());
-            ExceptionUtility.consumeException(ex, 'TKWWTriggerArchitecture.filterRecordsbyAlreadyProcessed.Exception: ' + ex.getMessage(), true);
+            if (debug) System.debug('ZyrinxTriggerArchitecture.filterRecordsbyAlreadyProcessed.Exception: ' + ex.getMessage());
+            ExceptionUtility.consumeException(ex, 'ZyrinxTriggerArchitecture.filterRecordsbyAlreadyProcessed.Exception: ' + ex.getMessage(), true);
             return records;
         }
     }
@@ -914,13 +914,13 @@ global without sharing class TKWWTriggerArchitecture {
     ////////////////////////////////////////////
     // Internals to determine if this context is BEFORE or AFTER
     ////////////////////////////////////////////    
-    private static Boolean isContextBefore(TKWWTriggerArchitecture.TriggerParameters tp)
+    private static Boolean isContextBefore(ZyrinxTriggerArchitecture.TriggerParameters tp)
     {
         return tp.defaultName.toLowerCase().contains('before');
     }
 
     //////////////////////////////////////////////////////
-    // Packages trigger context of caller for use throughout the TKWWTriggerArchitecture
+    // Packages trigger context of caller for use throughout the ZyrinxTriggerArchitecture
     //////////////////////////////////////////////////////
     public static TriggerParameters getTriggerParams(){
         TriggerParameters tp;
@@ -937,12 +937,12 @@ global without sharing class TKWWTriggerArchitecture {
             trigger.isUndelete
         );
 
-        System.debug('TKWWTriggerArchitecture.executeAllMethods: (' + tp.records.size() + ') ' + tp.triggerObject + ' records');
+        System.debug('ZyrinxTriggerArchitecture.executeAllMethods: (' + tp.records.size() + ') ' + tp.triggerObject + ' records');
         return tp;
     }
     
     //////////////////////////////////////////////////////
-    // Package for trigger context of caller for use throughout the TKWWTriggerArchitecture
+    // Package for trigger context of caller for use throughout the ZyrinxTriggerArchitecture
     //////////////////////////////////////////////////////
     global class triggerParameters{
 

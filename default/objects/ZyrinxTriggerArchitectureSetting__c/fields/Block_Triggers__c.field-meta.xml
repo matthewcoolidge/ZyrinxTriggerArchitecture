@@ -2,9 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Block_Triggers__c</fullName>
     <defaultValue>false</defaultValue>
-    <description>Disable all Trigger Actions thru the TKWW Trigger Architecture</description>
+    <description>Disable all Trigger Actions thru the Zyrinx Trigger Architecture</description>
     <externalId>false</externalId>
-    <inlineHelpText>Disable all Trigger Actions thru the TKWW Trigger Architecture</inlineHelpText>
+    <inlineHelpText>Disable all Trigger Actions thru the Zyrinx Trigger Architecture</inlineHelpText>
     <label>Block Triggers</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

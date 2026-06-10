@@ -1,27 +1,27 @@
 @isTest
-public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerArchitecture.executeMethod, TKWWTriggerArchitecture.triggerCache {
+public without sharing class ZyrinxTriggerArchitectureTest implements ZyrinxTriggerArchitecture.executeMethod, ZyrinxTriggerArchitecture.triggerCache {
 
     public static List<String> output = new List<String>();
 
     public static void init(String action){
 
-        System.debug('TKWWTriggerArchitectureTest.init - ' + action);
-        output.add('TKWWTriggerArchitectureTest.init - ' + action);
+        System.debug('ZyrinxTriggerArchitectureTest.init - ' + action);
+        output.add('ZyrinxTriggerArchitectureTest.init - ' + action);
     }
 
-    public void execute(List <sObject> records, Map <id, sObject> oldMap, TKWWTriggerArchitecture.triggerParameters tp)
+    public void execute(List <sObject> records, Map <id, sObject> oldMap, ZyrinxTriggerArchitecture.triggerParameters tp)
     {
-        System.debug('TKWWTriggerArchitectureTest.execute');
+        System.debug('ZyrinxTriggerArchitectureTest.execute');
 
         if(tp.isInsert){
             for(SObject o : records){
                 if(tp.isBefore){
-                    System.debug('TKWWTriggerArchitectureTest.execute.beforeInsert, o.Id: ' + o.Id);
-                    output.add('TKWWTriggerArchitectureTest.execute.beforeInsert, o.Id: ' + o.Id);
+                    System.debug('ZyrinxTriggerArchitectureTest.execute.beforeInsert, o.Id: ' + o.Id);
+                    output.add('ZyrinxTriggerArchitectureTest.execute.beforeInsert, o.Id: ' + o.Id);
                 }
                 else if(tp.isAfter){
-                    System.debug('TKWWTriggerArchitectureTest.execute.afterInsert, o.Id: ' + o.Id);
-                    output.add('TKWWTriggerArchitectureTest.execute.afterInsert, o.Id: ' + o.Id);
+                    System.debug('ZyrinxTriggerArchitectureTest.execute.afterInsert, o.Id: ' + o.Id);
+                    output.add('ZyrinxTriggerArchitectureTest.execute.afterInsert, o.Id: ' + o.Id);
                 }
             }
         }
@@ -30,15 +30,15 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
 
                 SObject old = oldmap.get(o.Id);
 
-                System.debug('TKWWTriggerArchitectureTest.execute.old: ' + old.Id);
+                System.debug('ZyrinxTriggerArchitectureTest.execute.old: ' + old.Id);
 
                 if(tp.isBefore){
-                    System.debug('TKWWTriggerArchitectureTest.execute.beforeUpdate, o.Id: ' + o.Id);
-                    output.add('TKWWTriggerArchitectureTest.execute.beforeUpdate, o.Id: ' + o.Id);
+                    System.debug('ZyrinxTriggerArchitectureTest.execute.beforeUpdate, o.Id: ' + o.Id);
+                    output.add('ZyrinxTriggerArchitectureTest.execute.beforeUpdate, o.Id: ' + o.Id);
                 }
                 else if(tp.isAfter){
-                    System.debug('TKWWTriggerArchitectureTest.execute.afterUpdate, o.Id: ' + o.Id);
-                    output.add('TKWWTriggerArchitectureTest.execute.afterUpdate, o.Id: ' + o.Id);
+                    System.debug('ZyrinxTriggerArchitectureTest.execute.afterUpdate, o.Id: ' + o.Id);
+                    output.add('ZyrinxTriggerArchitectureTest.execute.afterUpdate, o.Id: ' + o.Id);
                 }
             }
         }
@@ -46,12 +46,12 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
 
 /*    private static testmethod void testRecordtypeChange(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return;      // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return;      // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';   
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';   
         tam.Object_Name__c = 'Account';
         tam.RecordType_Names__c = 'CA_Account';
         tam.isActive__c = false;                            // <-- Would not fire in normal execution
@@ -59,12 +59,12 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
         tam.Order__c = 1;
         tam.BlockRecursion__c = true;
         tam.AfterUpdate__c = true;
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         Account a = new Account(Name = 'testRecordtypeChange');
         a.RecordTypeId = accRecTypeNameMap.get('Local Listing Account').getRecordTypeId();
-        a.TKWW_Account_Email__c = 'test@test123.net';
-        a.TKWW_Category__c = testTKWWCategory1.Id;
+        a.Zyrinx_Account_Email__c = 'test@test123.net';
+        a.Zyrinx_Category__c = testZyrinxCategory1.Id;
         a.Phone = '5789654125';
         a.Country_Code__c = 'US';
         a.BillingCity = 'Test City';
@@ -80,7 +80,7 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
 
     private static testmethod void testInstantiateFailure(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return;      // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return;      // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
         tam.Execute_Class__c = 'testInstantiateFailure';    // <- this class does not exist (hopefully)
@@ -90,7 +90,7 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
         tam.Order__c = 1;
         tam.BlockRecursion__c = true;
         tam.BeforeInsert__c = true;
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         Account a = new Account(Name = 'testInstantiateFailure');
         a.Phone = '5789654125';
@@ -112,10 +112,10 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
 
     private static testmethod void testBulkBeforeFailure(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return;      // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return;      // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';   
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';   
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                            // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;                   // <-- Will fire in Test execution
@@ -123,7 +123,7 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
         tam.BlockRecursion__c = true;
         tam.BeforeInsert__c = true;
         tam.Bulk_Before__c = 'testBulkBeforeFailure';
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         Account a = new Account(Name = 'testBulkBeforeFailure');
         a.Phone = '5789654125';
@@ -145,10 +145,10 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
 
     private static testmethod void testBulkAfterFailure(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return;      // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return;      // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';   
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';   
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                            // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;                   // <-- Will fire in Test execution
@@ -156,7 +156,7 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
         tam.BlockRecursion__c = true;
         tam.AfterInsert__c = true;
         tam.Bulk_After__c = 'testBulkAfterFailure';
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         Account a = new Account(Name = 'testBulkAfterFailure');
         a.Phone = '5789654125';
@@ -178,12 +178,12 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
 
     private static testmethod void testBulkInsertArchitectureTestDisabledUser(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
@@ -191,10 +191,10 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
         tam.BlockRecursion__c = false;
         tam.BeforeInsert__c = true;
         tam.AfterInsert__c = true;
-        tam.Bulk_Before__c = 'TKWWTriggerArchitectureTest';
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureTest';
+        tam.Bulk_Before__c = 'ZyrinxTriggerArchitectureTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureTest';
         tam.Disabled_User__c = UserInfo.getUserId();
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
         
 
         List<Account> accounts = new List<Account>();
@@ -231,12 +231,12 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
 
     private static testmethod void testBulkInsertArchitectureTestDisabledUserWithCruft(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
@@ -244,10 +244,10 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
         tam.BlockRecursion__c = false;
         tam.BeforeInsert__c = true;
         tam.AfterInsert__c = true;
-        tam.Bulk_Before__c = 'TKWWTriggerArchitectureTest';
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureTest';
+        tam.Bulk_Before__c = 'ZyrinxTriggerArchitectureTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureTest';
         tam.Disabled_User__c = 'cruft' + UserInfo.getUserId() + ',somethingelse|';
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
         
 
         List<Account> accounts = new List<Account>();
@@ -283,14 +283,14 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
 
     private static testmethod void testBulkInsertArchitectureTestEnabledUser(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         User otherUser = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' and Id != :UserInfo.getUserId() AND IsActive = true LIMIT 1];
 
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
@@ -298,10 +298,10 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
         tam.BlockRecursion__c = false;
         tam.BeforeInsert__c = true;
         tam.AfterInsert__c = true;
-        tam.Bulk_Before__c = 'TKWWTriggerArchitectureTest';
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureTest';
+        tam.Bulk_Before__c = 'ZyrinxTriggerArchitectureTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureTest';
         tam.Disabled_User__c = UserInfo.getUserId();
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
         
         System.runAs(otherUser){
             List<Account> accounts = new List<Account>();
@@ -336,12 +336,12 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
 
     private static testmethod void testBulkInsertArchitectureTest(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
@@ -349,9 +349,9 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
         tam.BlockRecursion__c = false;
         tam.BeforeInsert__c = true;
         tam.AfterInsert__c = true;
-        tam.Bulk_Before__c = 'TKWWTriggerArchitectureTest';
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureTest';
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        tam.Bulk_Before__c = 'ZyrinxTriggerArchitectureTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureTest';
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
         
 
         List<Account> accounts = new List<Account>();
@@ -387,12 +387,12 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
 
 /*    private static testmethod void testBulkInsertArchitectureTestWithRecordtype(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
@@ -400,10 +400,10 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
         tam.BlockRecursion__c = true;
         tam.BeforeInsert__c = true;
         tam.AfterInsert__c = true;
-        tam.Bulk_Before__c = 'TKWWTriggerArchitectureTest';
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureTest';
+        tam.Bulk_Before__c = 'ZyrinxTriggerArchitectureTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureTest';
         tam.RecordType_Names__c = 'Local_Account';
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         List<Account> accounts = new List<Account>();
 
@@ -434,12 +434,12 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
 
     private static testmethod void testBulkUpdateArchitectureTest(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
@@ -447,9 +447,9 @@ public without sharing class TKWWTriggerArchitectureTest implements TKWWTriggerA
         tam.BlockRecursion__c = true;
         tam.BeforeUpdate__c = true;
         tam.AfterUpdate__c = true;
-        tam.Bulk_Before__c = 'TKWWTriggerArchitectureTest';
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureTest';
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        tam.Bulk_Before__c = 'ZyrinxTriggerArchitectureTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureTest';
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         List<Account> accounts = new List<Account>();
 
@@ -492,12 +492,12 @@ for(string s : output){
 
 /*    private static testmethod void testBulkUpdateArchitectureTestWithRecordtype(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
@@ -505,10 +505,10 @@ for(string s : output){
         tam.BlockRecursion__c = true;
         tam.BeforeUpdate__c = true;
         tam.AfterUpdate__c = true;
-        tam.Bulk_Before__c = 'TKWWTriggerArchitectureTest';
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureTest';
+        tam.Bulk_Before__c = 'ZyrinxTriggerArchitectureTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureTest';
         tam.RecordType_Names__c = 'CA_Account';
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         List<Account> accounts = new List<Account>();
 
@@ -545,12 +545,12 @@ for(string s : output){
 
     private static testmethod void testUpdateArchitectureTestRecursion(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
@@ -558,9 +558,9 @@ for(string s : output){
         tam.BlockRecursion__c = true;              // <-- Recursion allowed
         tam.BeforeUpdate__c = true;
         tam.AfterUpdate__c = true;
-        tam.Bulk_Before__c = 'TKWWTriggerArchitectureTest';
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureTest';
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        tam.Bulk_Before__c = 'ZyrinxTriggerArchitectureTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureTest';
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         Account a = new Account();
         a.Name = 'TestLLAccount';
@@ -587,12 +587,12 @@ for(string s : output){
 
     private static testmethod void testUpdateArchitectureTestBlockRecursion(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
@@ -600,9 +600,9 @@ for(string s : output){
         tam.BlockRecursion__c = true;               // <-- Recursion not allowed
         tam.BeforeUpdate__c = true;
         tam.AfterUpdate__c = true;
-        tam.Bulk_Before__c = 'TKWWTriggerArchitectureTest';
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureTest';
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        tam.Bulk_Before__c = 'ZyrinxTriggerArchitectureTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureTest';
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         Account a = new Account();
         a.Name = 'TestLLAccount';
@@ -628,12 +628,12 @@ for(string s : output){
 
     private static testmethod void testBulkUpdateArchitectureTestRecursion(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
 
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
@@ -641,9 +641,9 @@ for(string s : output){
         tam.BlockRecursion__c = true;              // <-- Recursion allowed
         tam.BeforeUpdate__c = true;
         tam.AfterUpdate__c = true;
-        tam.Bulk_Before__c = 'TKWWTriggerArchitectureTest';
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureTest';
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        tam.Bulk_Before__c = 'ZyrinxTriggerArchitectureTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureTest';
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         List<Account> accounts = new List<Account>();
 
@@ -693,12 +693,12 @@ for(string s : output){
 
     private static testmethod void testBulkUpdateArchitectureTestBlockRecursion(){
 
-        if(Label.TriggerBlockTKWWTA == 'true') return; // This test can only work if TKWWTA is enabled! Thats what it is testing!
+        if(Label.TriggerBlockZyrinx == 'true') return; // This test can only work if Zyrinx is enabled! Thats what it is testing!
         
         Map<String,Schema.RecordTypeInfo> accRecTypeNameMap = Schema.SObjectType.Account.getRecordTypeInfosByName();
 
         Trigger_Action__mdt tam = new Trigger_Action__mdt();
-        tam.Execute_Class__c = 'TKWWTriggerArchitectureTest';
+        tam.Execute_Class__c = 'ZyrinxTriggerArchitectureTest';
         tam.Object_Name__c = 'Account';
         tam.isActive__c = false;                    // <-- Would not fire in normal execution
         tam.isActiveForTesting__c = true;           // <-- Will fire in Test execution
@@ -706,9 +706,9 @@ for(string s : output){
         tam.BlockRecursion__c = true;
         tam.BeforeUpdate__c = true;
         tam.AfterUpdate__c = true;
-        tam.Bulk_Before__c = 'TKWWTriggerArchitectureTest';
-        tam.Bulk_After__c = 'TKWWTriggerArchitectureTest';
-        TKWWTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
+        tam.Bulk_Before__c = 'ZyrinxTriggerArchitectureTest';
+        tam.Bulk_After__c = 'ZyrinxTriggerArchitectureTest';
+        ZyrinxTriggerArchitectureMetadataService.actions = new List<Trigger_Action__mdt> {tam};
 
         List<Account> accounts = new List<Account>();
 

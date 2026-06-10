@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Action calls to the TKWW Trigger Architecture (Q4 2020), mapping a particular SObject/Invocation to an Implementing Class</description>
+    <description>Action calls to the Zyrinx Trigger Architecture (Q4 2020), mapping a particular SObject/Invocation to an Implementing Class</description>
     <label>Trigger Action</label>
     <pluralLabel>Trigger Actions</pluralLabel>
     <visibility>Public</visibility>

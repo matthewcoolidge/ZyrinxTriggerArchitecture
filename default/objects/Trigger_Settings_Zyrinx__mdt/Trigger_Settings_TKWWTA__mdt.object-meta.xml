@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label>Trigger Settings TKWWTA</label>
-    <pluralLabel>Trigger Settings TKWWTA</pluralLabel>
+    <label>Trigger Settings Zyrinx</label>
+    <pluralLabel>Trigger Settings Zyrinx</pluralLabel>
     <visibility>Public</visibility>
 </CustomObject>

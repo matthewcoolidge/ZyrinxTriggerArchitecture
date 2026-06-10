@@ -3,7 +3,7 @@
  * @author: Charlie Faber
  * @date: 2023-10-30
  */
-public without sharing class ContactTriggerActionHotProspectPaidMedia extends TKWWTriggerArchitecture.asyncProcessing implements TKWWTriggerArchitecture.executeMethod {
+public without sharing class ContactTriggerActionHotProspectPaidMedia extends ZyrinxTriggerArchitecture.asyncProcessing implements ZyrinxTriggerArchitecture.executeMethod {
     public static Constants.User userConstants = new Constants.User();
     public static Constants.Opportunity oppConstants = new Constants.Opportunity();
     public static Constants.Task taskConstants = new Constants.Task();
@@ -22,15 +22,15 @@ public without sharing class ContactTriggerActionHotProspectPaidMedia extends TK
     }
 
     /*
-     * @description TKWWTriggerArchitecture.executeMethod
+     * @description ZyrinxTriggerArchitecture.executeMethod
      * @param List <SObject> records
      * @param Map <Id, SObject> oldMap
-     * @param TKWWTriggerArchitecture.triggerParameters tp
+     * @param ZyrinxTriggerArchitecture.triggerParameters tp
      */
     public void execute(
         List<SObject> records,
         Map<Id, SObject> oldMap,
-        TKWWTriggerArchitecture.triggerParameters tp
+        ZyrinxTriggerArchitecture.triggerParameters tp
     ) {
         List<Contact> filteredContacts = filterHotContacts((List<Contact>) records, oldMap);
         if (!filteredContacts.isEmpty()) {
