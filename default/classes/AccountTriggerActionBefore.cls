@@ -5,9 +5,9 @@
  * @date: 2023-06-11
  */
 
-public without sharing class AccountTriggerActionBefore implements TKWWTriggerArchitecture.executeMethod {
+public without sharing class AccountTriggerActionBefore implements ZyrinxTriggerArchitecture.executeMethod {
     
-    public void execute(List <sObject> records, Map <id, sObject> oldMap, TKWWTriggerArchitecture.triggerParameters tp)
+    public void execute(List <sObject> records, Map <id, sObject> oldMap, ZyrinxTriggerArchitecture.triggerParameters tp)
     {
         List<String> phoneList = new List<String>();
         if(tp.isInsert || tp.isUpdate){

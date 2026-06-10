@@ -1,9 +1,9 @@
 /* 
- * @description: TKWWTA Cache Class for Opportunity Trigger Actions
+ * @description: Zyrinx Cache Class for Opportunity Trigger Actions
  * @author: Matthew Coolidge
  * @date: 2022-06-02
  */
-public without sharing class OpportunityTriggerCache implements TKWWTriggerArchitecture.triggerCache {
+public without sharing class OpportunityTriggerCache implements ZyrinxTriggerArchitecture.triggerCache {
 
     public static Map<String, Id> botUserIdMap = new Map<String, Id>();
     public static Set<String> accountIds = new Set<String>();
