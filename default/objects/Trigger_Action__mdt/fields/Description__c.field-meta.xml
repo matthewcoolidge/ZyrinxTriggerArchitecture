@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Description__c</fullName>
+    <description>A more detailed explanation of the action defined by this SObject Implementation</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>A more detailed explanation of the action defined by this SObject Implementation</inlineHelpText>
+    <label>Description</label>
+    <required>false</required>
+    <type>TextArea</type>
+</CustomField>

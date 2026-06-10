@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>isActive__c</columns>
+    <columns>Object_Name__c</columns>
+    <columns>RecordType_Names__c</columns>
+    <columns>BlockRecursion__c</columns>
+    <columns>BeforeInsert__c</columns>
+    <columns>BeforeUpdate__c</columns>
+    <columns>AfterDelete__c</columns>
+    <columns>AfterInsert__c</columns>
+    <columns>AfterUpdate__c</columns>
+    <columns>Bulk_After__c</columns>
+    <columns>Order__c</columns>
+    <columns>Execute_Class__c</columns>
+    <columns>Disabled_User__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

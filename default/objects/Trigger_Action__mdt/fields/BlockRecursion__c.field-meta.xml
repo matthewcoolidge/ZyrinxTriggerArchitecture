@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BlockRecursion__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>If selected, ensures that this SObject Implementation occurs at most once for each Trigger context</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>If selected, ensures that this SObject Implementation occurs at most once for each Trigger context</inlineHelpText>
+    <label>BlockRecursion</label>
+    <type>Checkbox</type>
+</CustomField>

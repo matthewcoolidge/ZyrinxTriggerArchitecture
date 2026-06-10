@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>isActiveForTesting__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>Determines whether or not to evaluate this Implementation in the Test context</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Determines whether or not to evaluate this Implementation in the Test context</inlineHelpText>
+    <label>isActiveForTesting</label>
+    <type>Checkbox</type>
+</CustomField>

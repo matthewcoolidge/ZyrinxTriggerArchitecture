@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Order__c</fullName>
+    <description>If specified, determines the execution order of Implementations in a Trigger execution context</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>If specified, determines the execution order of Implementations in a Trigger execution context</inlineHelpText>
+    <label>Order</label>
+    <precision>7</precision>
+    <required>false</required>
+    <scale>3</scale>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
