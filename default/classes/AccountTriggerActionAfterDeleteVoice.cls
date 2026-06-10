@@ -4,14 +4,14 @@
  * @author Charlie Faber
  * @date 2023-11-6
  */
-public with sharing class AccountTriggerActionAfterDeleteVoice implements ZyrinxTriggerArchitecture.executeMethod {
+public with sharing class AccountTriggerActionAfterDeleteVoice implements TKWWTriggerArchitecture.executeMethod {
     /**
-    * @description ZyrinxTriggerArchitecture.executeMethod
+    * @description TKWWTriggerArchitecture.executeMethod
     * @param List<SObject> records
     * @param Map<Id,SObject> oldMap
-    * @param ZyrinxTriggerArchitecture.triggerParameters tp
+    * @param TKWWTriggerArchitecture.triggerParameters tp
     */
-    public void execute(List<SObject> records, Map<Id, SObject> oldMap, ZyrinxTriggerArchitecture.triggerParameters tp) {
+    public void execute(List<SObject> records, Map<Id, SObject> oldMap, TKWWTriggerArchitecture.triggerParameters tp) {
         Set<Id> deletedAccountIds = Pluck.ids(Account.Id, oldMap.values());
         List<VoiceCall> voiceCalls = [SELECT Id, RelatedRecordId, Account__c FROM VoiceCall WHERE RelatedRecordId IN :deletedAccountIds];
         Map<Id, List<VoiceCall>> voiceCallsByRelatedRecordId = (Map<Id, List<VoiceCall>>)GroupBy.ids(VoiceCall.RelatedRecordId, voiceCalls);

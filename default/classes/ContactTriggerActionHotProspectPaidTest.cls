@@ -247,7 +247,7 @@ public with sharing class ContactTriggerActionHotProspectPaidTest {
             ContactTriggerActionHotProspectPaidMedia.upsertOpportunityAndAssignAccount(new List<Opportunity>{testOpportunity});
         Test.stopTest();
 
-        List<Zyrinx_Exception__c> exceptionList = [SELECT Id FROM Zyrinx_Exception__c];
+        List<TKWW_Exception__c> exceptionList = [SELECT Id FROM TKWW_Exception__c];
         Assert.isTrue(exceptionList != null, 'We expect queried list to not be null');
         Assert.isTrue(!exceptionList.isEmpty(), 'We expect queried list to not be empty');
         Assert.areEqual(1, exceptionList.size(), 'We expect 1 exception record to be queried');

@@ -4,9 +4,9 @@
  * @author: Nick
  * @date: 2023-06-11
  */
-public without sharing class ContactTriggerActionBefore implements ZyrinxTriggerArchitecture.executeMethod {
+public without sharing class ContactTriggerActionBefore implements TKWWTriggerArchitecture.executeMethod {
 
-    public void execute(List <sObject> records, Map <id, sObject> oldMap, ZyrinxTriggerArchitecture.triggerParameters tp)
+    public void execute(List <sObject> records, Map <id, sObject> oldMap, TKWWTriggerArchitecture.triggerParameters tp)
     {
         List<String> conList = new List<String>();
         if(tp.isInsert || tp.isUpdate){

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Block_Triggers__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Disable all Trigger Actions thru the TKWW Trigger Architecture</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Disable all Trigger Actions thru the TKWW Trigger Architecture</inlineHelpText>
+    <label>Block Triggers</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
