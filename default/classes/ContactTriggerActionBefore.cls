@@ -1,8 +1,5 @@
 /*
  * @description: Trigger Action to handle INSERT or UPDATE the phone numbers, including:
- *               https://theknotww.atlassian.net/browse/QTC-6113
- * @author: Nick
- * @date: 2023-06-11
  */
 public without sharing class ContactTriggerActionBefore implements ZyrinxTriggerArchitecture.executeMethod {
 

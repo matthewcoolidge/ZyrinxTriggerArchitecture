@@ -1,7 +1,5 @@
 /*
  * @description: Trigger Action to handle when Contact Hot Prospect/Paid Media flags are updated to true, create opportunity
- * @author: Charlie Faber
- * @date: 2023-10-30
  */
 public without sharing class ContactTriggerActionHotProspectPaidMedia extends ZyrinxTriggerArchitecture.asyncProcessing implements ZyrinxTriggerArchitecture.executeMethod {
     public static Constants.User userConstants = new Constants.User();

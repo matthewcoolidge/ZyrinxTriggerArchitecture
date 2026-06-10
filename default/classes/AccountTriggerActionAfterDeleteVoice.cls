@@ -1,8 +1,5 @@
 /**
  * @description Trigger Action to reparent Voice Call records when an Account is deleted/merged
- *               https://theknotww.atlassian.net/browse/QTC-7835
- * @author Charlie Faber
- * @date 2023-11-6
  */
 public with sharing class AccountTriggerActionAfterDeleteVoice implements ZyrinxTriggerArchitecture.executeMethod {
     /**

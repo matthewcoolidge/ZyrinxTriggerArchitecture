@@ -1,7 +1,5 @@
 /* 
  * @description: Zyrinx Cache Class for Opportunity Trigger Actions
- * @author: Matthew Coolidge
- * @date: 2022-06-02
  */
 public without sharing class OpportunityTriggerCache implements ZyrinxTriggerArchitecture.triggerCache {
 
